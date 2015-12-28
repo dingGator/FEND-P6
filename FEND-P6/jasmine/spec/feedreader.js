@@ -42,7 +42,7 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-        it(' name are defined and has length >0', function()
+        it(' name are defined and has length > 0', function()
         {
         	allFeeds.forEach(function(feed)
         	{
@@ -74,7 +74,7 @@ $(function() {
           * This test that the menu display when clicked
           * and disappear when clicked again.
     */
-    	it(' changed to be visible if menu click on', function()
+    	it(' toggles visibility when menu icon is clicked', function()
 		{
 			$('.menu-icon-link').click();
 
@@ -87,8 +87,8 @@ $(function() {
 
 
     /* A new test suite named "Initial Entries" */
-
-        /* A test that ensures when the loadFeed
+/*******************************************
+        A test that ensures when the loadFeed
          * function is called and completes its work,
          * there is at least a single .entry element
          * within the .feed container.
@@ -105,7 +105,7 @@ $(function() {
 
 		it(' contains at least one entry',  function()
 		{
-			expect($(".entry").length).not.toBe(0);
+			expect($('.entry').length).toBeGreaterThan(0);
 		});
 	});
 
@@ -117,25 +117,27 @@ $(function() {
          * the  loadFeed() is asynchronous.
          */
 	describe('New Feed Selection', function(){
-         	var $feed0,
-         	$feed1;
+        var feed0;
+
+         //	Nest the second loadFeed() inside the first loadFeed()
 
       	beforeEach(function(done)
         {
-
         	loadFeed(0, function(){
-        		feed0 = $(".feed").html();
-         	});
+        		feed0 = $('.feed').html();
 
-        	loadFeed(1,function(){
-        		feed1 = $(".feed").html();
-        		done();
+        		loadFeed(1,	done);
+
+        		});
         	});
+
+
+        it(' with new content is loaded', function(done){
+
+        	expect('.html').not.toBe(feed0);
+
         });
 
-        it(' has changed content', function(done){
-        	expect(feed0).not.toBe(feed1);
-        	done();
-        });
-        });
-	}());
+    });
+
+}());
